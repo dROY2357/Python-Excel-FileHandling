@@ -43,7 +43,9 @@ def extractData(sheet_no, output_sheet_no):
         output_sheet_no.write(i+1, 0, name_list[i], sheet_cell_nowrap)
         output_sheet_no.write(i+1, 1, srn_list[i], sheet_cell_nowrap)
         output_sheet_no.write(i+1, 2, (float(ia_marks_list[i])/2.0), style_cell)
+        output_sheet_no.write(i+1, 3, '-', sheet_cell_nowrap)
         output_sheet_no.write(i+1, 4, (float(ia_marks_list[i])/2.0), style_cell)
+        output_sheet_no.write(i+1, 5, '-', sheet_cell_nowrap)
         output_sheet_no.write(i+1, 6, float(see_marks_list[i]), style_cell)
 
 extractData(sheet1, out_sheet1)
