@@ -1,18 +1,20 @@
 import xlrd
 import xlwt
 from xlwt import Workbook
+import numpy as np
 
 loc = "COPO - Data April 2019 to April 2020 - CSE.xlsx"
 wb = xlrd.open_workbook(loc)
 output_wb = Workbook()
 
-sheet1 = wb.sheet_by_index(0)
-sheet2 = wb.sheet_by_index(1)
-sheet3 = wb.sheet_by_index(2)
+sheet_names_list = wb._sheet_names
 
-out_sheet1 = output_wb.add_sheet('APR19')
-out_sheet2 = output_wb.add_sheet('OCT19')
-out_sheet3 = output_wb.add_sheet('APR20')
+sheet = [None] * len(sheet_names_list)
+out_sheet = [None] * len(sheet_names_list)
+
+for i in range(len(sheet_names_list)):
+    sheet[i] = wb.sheet_by_index(i)
+    out_sheet[i] = output_wb.add_sheet(sheet_names_list[i])
 
 sub_name = str(input("Enter the subject name you want to extract data of:"))
 
@@ -23,7 +25,6 @@ sheet_cell_nowrap = xlwt.easyxf('align: vert center, horiz center')
 column_header_list = ['Name', 'SRN', 'IA_Marks_q1', 'IA_Marks_q2', 'IA_Marks_q3', 'IA_Marks_q4', 'SEE_Marks']
 
 def extractData(sheet_no, output_sheet_no):
-
     for i in range(7):
         output_sheet_no.write(0, i, column_header_list[i], style_header)
 
@@ -48,9 +49,8 @@ def extractData(sheet_no, output_sheet_no):
         output_sheet_no.write(i+1, 5, '-', sheet_cell_nowrap)
         output_sheet_no.write(i+1, 6, float(see_marks_list[i]), style_cell)
 
-extractData(sheet1, out_sheet1)
-extractData(sheet2, out_sheet2)
-extractData(sheet3, out_sheet3)
+for i in range(len(sheet_names_list)):
+    extractData(sheet[i], out_sheet[i])
 
 out_loc = str(input("Enter the output file name with .xls extention, that you want to store output in:"))
 
